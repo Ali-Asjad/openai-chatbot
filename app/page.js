@@ -84,34 +84,33 @@ export default function Home() {
       width="100vw"
       height="100vh"
       display="flex"
+      flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      sx={{
-        backgroundColor: '#f0f0f0',
-        padding: 2,
-      }}
+      bgcolor="#f0f0f0"
+      p={2}
     >
       <Stack
         direction={'column'}
-        width={{ xs: "90%", sm: "500px" }}
-        height="70vh"
-        borderRadius={4}
-        boxShadow={3}
+        width="80%"
+        height="90%"
+        maxWidth="1200px"
+        borderRadius={8}
+        border="1px solid #ddd"
+        boxShadow="0 4px 8px rgba(0,0,0,0.1)"
+        bgcolor="white"
         p={2}
         spacing={3}
-        sx={{ backgroundColor: '#ffffff' }}
       >
+        <Typography variant="h5" mb={2}>
+          AI Chat Support
+        </Typography>
         <Stack
           direction={'column'}
           spacing={2}
           flexGrow={1}
           overflow="auto"
-          sx={{
-            maxHeight: "100%",
-            paddingRight: 1,
-            "&::-webkit-scrollbar": { width: '4px' },
-            "&::-webkit-scrollbar-thumb": { backgroundColor: '#c1c1c1', borderRadius: '2px' },
-          }}
+          maxHeight="100%"
         >
           {messages.map((message, index) => (
             <Box
@@ -122,52 +121,39 @@ export default function Home() {
               }
             >
               <Box
-                sx={{
-                  backgroundColor:
-                    message.role === 'assistant'
-                      ? 'primary.light'
-                      : 'secondary.light',
-                  color: "black",
-                  borderRadius: 16,
-                  padding: '12px 16px',
-                  boxShadow: 1,
-                }}
+                bgcolor={
+                  message.role === 'assistant'
+                    ? 'primary.main'
+                    : 'secondary.main'
+                }
+                color="white"
+                borderRadius={8}
+                p={2}
+                maxWidth="80%"
+                wordbreak="break-word"
               >
-                <Typography variant="body1" component="span">
-                  {message.content}
-                </Typography>
+                {message.content}
               </Box>
             </Box>
           ))}
           <div ref={messagesEndRef} />
         </Stack>
-        <Stack direction={'row'} spacing={2} alignItems="center">
+        <Stack direction={'row'} spacing={2}>
           <TextField
-            variant="outlined"
-            label="Message"
+            label="Type a message"
             fullWidth
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyPress={handleKeyPress}
             disabled={isLoading}
-            InputProps={{
-              sx: {
-                borderRadius: 50,
-                backgroundColor: '#fafafa',
-              },
-            }}
+            variant="outlined"
           />
           <Button
             variant="contained"
-            color="primary"
             onClick={sendMessage}
             disabled={isLoading}
-            sx={{
-              borderRadius: 50,
-              padding: '12px 16px',
-            }}
           >
-            {isLoading ? 'Sending...' : <SendIcon />}
+            {isLoading ? 'Sending...' : 'Send'}
           </Button>
         </Stack>
       </Stack>
