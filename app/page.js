@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useRef, useEffect } from "react";
-import { Box, Button, Stack, TextField } from "@mui/material";
+import { Box, Button, Stack, TextField, Typography} from "@mui/material";
+import SendIcon from '@mui/icons-material/Send';
 
 export default function Home() {
   const [messages, setMessages] = useState([
@@ -83,24 +84,34 @@ export default function Home() {
       width="100vw"
       height="100vh"
       display="flex"
-      flexDirection="column"
       justifyContent="center"
       alignItems="center"
+      sx={{
+        backgroundColor: '#f0f0f0',
+        padding: 2,
+      }}
     >
       <Stack
         direction={'column'}
-        width="500px"
-        height="700px"
-        border="1px solid black"
+        width={{ xs: "90%", sm: "500px" }}
+        height="70vh"
+        borderRadius={4}
+        boxShadow={3}
         p={2}
         spacing={3}
+        sx={{ backgroundColor: '#ffffff' }}
       >
         <Stack
           direction={'column'}
           spacing={2}
           flexGrow={1}
           overflow="auto"
-          maxHeight="100%"
+          sx={{
+            maxHeight: "100%",
+            paddingRight: 1,
+            "&::-webkit-scrollbar": { width: '4px' },
+            "&::-webkit-scrollbar-thumb": { backgroundColor: '#c1c1c1', borderRadius: '2px' },
+          }}
         >
           {messages.map((message, index) => (
             <Box
@@ -111,32 +122,52 @@ export default function Home() {
               }
             >
               <Box
-                bgcolor={
-                  message.role === 'assistant'
-                    ? 'primary.main'
-                    : 'secondary.main'
-                }
-                color="white"
-                borderRadius={16}
-                p={3}
+                sx={{
+                  backgroundColor:
+                    message.role === 'assistant'
+                      ? 'primary.light'
+                      : 'secondary.light',
+                  color: "black",
+                  borderRadius: 16,
+                  padding: '12px 16px',
+                  boxShadow: 1,
+                }}
               >
-                {message.content}
+                <Typography variant="body1" component="span">
+                  {message.content}
+                </Typography>
               </Box>
             </Box>
           ))}
           <div ref={messagesEndRef} />
         </Stack>
-        <Stack direction={'row'} spacing={2}>
+        <Stack direction={'row'} spacing={2} alignItems="center">
           <TextField
+            variant="outlined"
             label="Message"
             fullWidth
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyPress={handleKeyPress}
             disabled={isLoading}
+            InputProps={{
+              sx: {
+                borderRadius: 50,
+                backgroundColor: '#fafafa',
+              },
+            }}
           />
-          <Button variant="contained" onClick={sendMessage} disabled={isLoading}>
-            {isLoading? 'Sending...' : 'Send'}
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={sendMessage}
+            disabled={isLoading}
+            sx={{
+              borderRadius: 50,
+              padding: '12px 16px',
+            }}
+          >
+            {isLoading ? 'Sending...' : <SendIcon />}
           </Button>
         </Stack>
       </Stack>
